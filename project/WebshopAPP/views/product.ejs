@@ -1,0 +1,64 @@
+<%- include('parts/header.ejs') %>
+    <section id="addedprod">
+        <p>product added to cart</p>
+        <a href="/cart"><input type="button" value="View cart"></a>
+    </section>
+
+    <section id="prodpage">
+        <div id="productImgs">
+            <img src="" alt=" " id="showprod">
+            <div>
+                <% if(data.objects[0].metadata.images.image1.url){ %>
+                    <img src=<%=data.objects[0].metadata.images.image1.url %> alt="blog" class="productImg">
+                    <% } %>
+                        <% if(data.objects[0].metadata.images.image2.url){ %>
+                            <img src=<%=data.objects[0].metadata.images.image2.url %> alt="blog" class="productImg">
+                            <% } %>
+                                <% if(data.objects[0].metadata.images.image3.url){ %>
+                                    <img src=<%=data.objects[0].metadata.images.image3.url %> alt="blog"
+                                    class="productImg">
+                                    <% } %>
+            </div>
+        </div>
+        <div id="productInfo">
+            <h2 class="paginaNaam">
+
+                <%=data.objects[0].title %>
+            </h2>
+            <h2 class="info">
+                <%=data.objects[0].metadata.info %>
+            </h2>
+            <h2 class="price">€<%=data.objects[0].metadata.price%>
+            </h2>
+            <input class="addtocart" type="button" value="add to cart" id="<%= data.objects[0].slug %>">
+
+
+            <p>
+                <%=data.objects[0].metadata.text %>
+            </p>
+            <div>
+                <%- data.objects[0].content %>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    </main>
+    <script>
+        document.querySelector('#showprod').src = document.querySelectorAll('.productImg')[0]?.src || '';
+            document.querySelectorAll('.productImg').forEach(d => d.addEventListener('mouseover', check));
+        function check(e) {
+            document.querySelector('#showprod').src = e.target.closest('img')?.src;
+        }
+        document.querySelectorAll('.addtocart').forEach(d => d.addEventListener('click', add));
+        function add(e) {
+            fetch("/cart/" + e.target.id, { method: 'POST' });
+            document.querySelector('#addedprod').style.display = 'block';
+            const setNone = () => document.querySelector('#addedprod').style.display = 'none';
+            setTimeout(setNone, 5000);
+        }
+
+    </script>
+    <%- include('parts/footer.ejs') %>

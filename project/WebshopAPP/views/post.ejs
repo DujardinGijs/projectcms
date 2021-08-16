@@ -1,0 +1,18 @@
+<%- include('parts/header.ejs') %>
+    <h2 class="paginaNaam">
+        <%=data.objects[0].title %>
+    </h2>
+    <h2>
+        <%=data.objects[0].metadata.info %>
+    </h2>
+    <% if(data.objects[0].metadata.image){ %>
+        <img src=<%=data.objects[0].metadata.image?.url %> alt="blog" class="blogImg">
+        <% } %>
+
+            <p>
+                <%=data.objects[0].metadata.text %>
+            </p>
+            <%-data.objects[0].content %>
+
+                </main>
+                <%- include('parts/footer.ejs') %>

@@ -1,0 +1,64 @@
+<%- include('parts/header.ejs') %>
+    <h2 class="paginaNaam">Cart</h2>
+    <% if (!data.total) { %>
+        <p>Cart is empty</p>
+        <% }else{ %>
+            <table>
+                <tr>
+                    <td>
+                        Product
+                    </td>
+                    <td>
+                        Price
+                    </td>
+                    <td>
+                        Amount
+                    </td>
+                    <td>
+                        Total
+                    </td>
+                    <td></td>
+                </tr>
+                <% data.products.map(p=>{
+                    %>
+                    <tr>
+                        <td>
+                            <%= p.title%>
+                        </td>
+                        <td>
+                            €<%= p.meta.price%>
+                        </td>
+                        <td>
+                            <a href="/cart/<%= p.id %>/-">-</a>
+                            <%= p.amount%>
+                            <a href="/cart/<%= p.id %>/+">+</a>
+                        </td>
+                        <td>
+                            €<%= (p.meta.price * p.amount).toFixed(2)%>
+                        </td>
+                        <td><a href="/cart/<%= p.id %>/delete">X</a></td>
+                    </tr>
+                    <% }); %>
+                        <tr>
+                            <td>Total</td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                €<%= data.total.toFixed(2) %>
+                            </td>
+                        </tr>
+            </table>
+            <a href="/order"> <input type="button" value="Order Now"></a>
+
+            <% } %>
+
+                </main>
+                <script>
+                    document.querySelectorAll('.blog article').forEach(d => d.addEventListener('click', link));
+
+                    function link(e) {
+                        console.log();
+                        window.location.href = 'Blog/' + e.target.closest('article').className;
+                    }
+                </script>
+                <%- include('parts/footer.ejs') %>

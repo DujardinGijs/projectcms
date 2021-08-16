@@ -1,0 +1,54 @@
+<%- include('parts/header.ejs') %>
+    <section id="addedprod">
+        <p>product added to cart</p>
+        <a href="/cart"><input type="button" value="View cart"></a>
+    </section>
+
+    <h2 class="paginaNaam">Products</h2>
+    <section class="products">
+        <% data.objects.map( b=>{
+            %>
+            <article class="<%=b.slug%>"">
+                <figure>
+                   
+                <%
+                if(b.metadata.images.image1.url){
+                    %>
+                    <img src=" <%=b.metadata.images.image1.url %>" alt="blog">
+                <% } %>
+                    </figure>
+                    <h3>
+                        <%=b.title%>
+                    </h3>
+                    <p class="price">€<%=b.metadata.price%>
+                    </p>
+                    <input class="addtocart" type="button" value="add to cart" id="<%= b.slug %>">
+                    <br>
+                    <input type="button" value="view details">
+
+
+            </article>
+            <% } ) %>
+    </section>
+    </main>
+    <script>
+
+
+        document.querySelectorAll('.addtocart').forEach(d => d.addEventListener('click', event));
+        document.querySelectorAll('.products article').forEach(d => d.addEventListener('click', event));
+
+        function event(e) {
+            if (e.target.className === 'addtocart') {
+                fetch("/cart/" + e.target.id, { method: 'POST' });
+                document.querySelector('#addedprod').style.display = 'block';
+                const setNone = () => document.querySelector('#addedprod').style.display = 'none';
+                setTimeout(setNone, 5000);
+            } else {
+                window.location.href = '/products/' + e.target.closest('article').className;
+
+            }
+
+        }
+
+    </script>
+    <%- include('parts/footer.ejs') %>

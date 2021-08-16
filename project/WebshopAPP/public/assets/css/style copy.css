@@ -1,0 +1,138 @@
+body{
+    font: 1em  sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+header{
+    height: 100px;   
+}
+header section, header nav{
+    height: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header nav{
+    height: 40%;
+    justify-content: space-around;
+}
+header nav a{
+    flex-grow: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    box-shadow: rgba(30, 30, 30, 0.9) 0px 5px 15px;
+}
+header nav a:hover{
+    box-shadow: rgba(30, 30, 30, 0.9) 0 0 15px;
+}
+
+main {
+    text-align: center;
+    width: 70%;
+    max-width: 600px;
+    padding: 10px 0;
+    margin: 10px auto;
+}
+main h1{
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+section.blog article{
+    width: 70%;
+    padding: 10px;
+    margin: 20px auto;
+    border-radius: 15px;
+    box-shadow: rgba(30, 30, 30, 0.9) 0 0 10px;
+    cursor: pointer;
+}
+.blog h3{
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+.blog img{
+    width: 70%;
+    height: auto;
+}
+
+.blogImg{
+    width: 70%;
+    height: auto;
+}
+
+article{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 70%;
+    padding: 10px;
+    margin: 20px auto;
+    border-radius: 15px;
+    box-shadow: black 0 0 5px;
+}
+article h3{
+    font-size: 1.2rem;
+    width: 100%;
+}
+article p{
+    width: 70%;
+}
+form{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 70%;
+    padding: 10px;
+    margin: 20px auto;
+    border-radius: 15px;
+    box-shadow: black 0 0 5px;
+}
+form input{
+    width: 45%;
+    float: right;
+    margin: 5px 0;
+}
+
+form label{
+    width: 45%;
+    float: left;
+    margin: 5px 0;
+    text-align: right;
+}
+form textarea{
+    width: 45%;
+    float: right;
+    margin: 5px 0;
+}
+form p{
+    width: 90%;
+} 
+
+#other{
+    display: none;
+}
+table{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 90%;
+    padding: 10px;
+    margin: 20px auto;
+    border-radius: 15px;
+    box-shadow: black 0 0 5px;
+}
+
+table tbody{
+    width: 100%;
+} table tr{
+    display: flex;
+}
+table td{
+    width: 100%;
+    flex-grow: 1;
+    padding: 10px;
+    box-shadow: grey 0 0 3px;
+}

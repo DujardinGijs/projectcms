@@ -1,0 +1,29 @@
+<%- include('parts/header.ejs') %>
+    <h2 class="paginaNaam">Blog</h2>
+    <section class="blog">
+        <% data.objects.map( b=>{
+            %>
+            <article class="<%=b.slug%>">
+                <% if(b.metadata.image){ %>
+                    <img src="<%=b.metadata.image.url %>" alt="blog">
+                    <% } %>
+
+                        <h3>
+                            <%=b.title%>
+                        </h3>
+                        <p>
+                            <%=b.metadata.info%>
+                        </p>
+            </article>
+            <% } ) %>
+    </section>
+    </main>
+    <script>
+        document.querySelectorAll('.blog article').forEach(d => d.addEventListener('click', link));
+
+        function link(e) {
+            console.log();
+            window.location.href = 'Blog/' + e.target.closest('article').className;
+        }
+    </script>
+    <%- include('parts/footer.ejs') %>

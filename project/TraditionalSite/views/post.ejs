@@ -1,0 +1,9 @@
+<%- include('parts/header.ejs') %> 
+<h1><%=data.post.title %></h1>
+<h2><%=data.post.metadata.info %></h2>
+<img src=<%= data.post.metadata.image.url %> alt="blog" class="blogImg">
+<p><%=data.post.metadata.text %></p>
+<%-data.post.content %>
+</main>
+</body>
+</html>

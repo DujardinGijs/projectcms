@@ -1,0 +1,153 @@
+<%- include('parts/header.ejs') %>
+    <h2 class="paginaNaam">Account</h2>
+    <section>
+        <% if(data.user){ %>
+            <h2>Welcome <%=data.user.metadata.full_name %>
+            </h2>
+            <a href="account/logout"><input type="button" value="logout"></a>
+
+
+            <h2>Orders</h2>
+            <% if(data.orders){ data.orders.objects.map((o,i)=>{
+                %>
+                <article>
+                    <h3>
+                        <%= o.slug%>
+                    </h3>
+                    <p>total: €<%= (JSON.parse(o.metadata.order)).total %>
+                    </p>
+                    <p>
+                        <%=o.created_at.split('T')[0] %>
+                    </p>
+                    <p>
+                        <%=o.created_at.split('T')[1] %>
+                    </p>
+                    <p>products:</p>
+                    <table>
+                        <tr>
+                                <td>
+                                    Product
+                                </td>
+                                <td>
+                                    Price
+                                </td>
+                                <td>
+                                    Amount
+                                </td>
+                                <td>
+                                    Total
+                                </td>
+                            </tr>
+                        <%(JSON.parse(o.metadata.order)).products.map(p=>{
+                            %>
+                            <tr>
+                                <td>
+                                    <%=p.title %>
+                                </td>
+                                <td>
+                                    €<%=p.price %>
+                                </td>
+                                <td>
+                                    x<%=p.amount %>
+                                </td>
+                                <td>
+                                    €<%= (p.price * p.amount).toFixed(2) %>
+                                </td>
+                            </tr>
+                            <% }) %>
+                                <tr>
+                                    <td>
+                                        Total
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        €<%= (JSON.parse(o.metadata.order)).total %>
+                                    </td>
+                                </tr>
+                    </table>
+                    <p>Details</p>
+                    <table class="details">
+                        <tr>
+                            <td>First Name</td>
+                            <td>
+                                <%= o.metadata.first_name %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Last Name</td>
+                            <td>
+                                <%= o.metadata.last_name %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td>
+                                <%= o.metadata.email %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>City</td>
+                            <td>
+                                <%= o.metadata.city %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Postal Code</td>
+                            <td>
+                                <%= o.metadata.postal_code %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Address</td>
+                            <td>
+                                <%= o.metadata.address %>
+                            </td>
+                        </tr>
+                    </table>
+
+
+                </article>
+                <% }) }else{%>
+                    <p>no orders with this email</p>
+                    <%} %>
+                        <% }else{ if(data==='login' ){ %>
+
+                            <div>
+                                <h2>Login</h2>
+                                <form action="/account/login" method="POST">
+                                    <label for="email">Email</label>
+                                    <input required type="email" name="email" id="email">
+                                    <label for="password">Password</label>
+                                    <input required type="password" name="password" id="password">
+                                    <input type="submit" value="Log in">
+                                </form>
+                                <p>
+                                    Don't have an account yet? <a href="/account/register">register now</a>
+                                </p>
+                            </div>
+                            <%}else{%>
+                                <div>
+                                    <h2>Register</h2>
+                                    <form action="/account/register" method="POST">
+                                        <label for="fullname">Full Name</label>
+                                        <input required type="text" name="fullname" id="fullname">
+                                        <label for="email">Email</label>
+                                        <input required type="email" name="email" id="email">
+                                        <label for="password">Password</label>
+                                        <input required type="password" name="password" id="password">
+
+                                        <input type="submit" value="Register">
+                                    </form>
+                                    <p>
+                                    Already have an account? <a href="/account/login">log in</a>
+                                </p>
+                                </div>
+                                <%}}%>
+    </section>
+
+
+    </main>
+    <%- include('parts/footer.ejs') %>

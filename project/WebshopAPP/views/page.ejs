@@ -1,0 +1,11 @@
+<%- include('parts/header.ejs') %>
+    <h2 class="paginaNaam">
+        <%=data.title %>
+    </h2>
+    <p>
+        <%=data.metadata.text %>
+    </p>
+    <%- data.content %>
+        <%- data.metadata.extra %>
+            </main>
+            <%- include('parts/footer.ejs') %>

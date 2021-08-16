@@ -1,0 +1,197 @@
+<%- include('parts/header.ejs') %>
+    <h2 class="paginaNaam">Order</h2>
+    <section>
+        <% if (data==='login' ) { %>
+            <h2 class="stap">1/3 details</h2>
+
+            <% };%>
+                <% if (data==='info' ) { %>
+                    <h2 class="stap">1/3 details</h2>
+                    <form action="" method="POST">
+                        <label for="first_name">First Name</label>
+                        <input required type="text" name="first_name" id="first_name">
+                        <label for="last_name">Last Name</label>
+                        <input required type="text" name="last_name" id="last_name">
+                        <label for="email">Email</label>
+                        <input required type="email" id="email" name="email">
+                        <label for="address">Address</label>
+                        <input required type="text" name="address" id="address">
+                        <label for="postal_code">Postal Code</label>
+                        <input required type="number" name="postal_code" id="postal_code">
+                        <label for="city">City</label>
+                        <input required type="text" name="city" id="city">
+                        <input type="submit" value="Next">
+                    </form>
+                    <% }; if (data==='payment' ) { %>
+                        <h2>2/3 payment</h2>
+                        <form action="/order/complete">
+                            <label for="total">Total</label>
+                            <input type="text" value="€<%= total %>" disabled>
+                            <p>Suported payment serviceses:</p>
+                            <label for="payment1">Pay on Delivery</label>
+                            <input required type="radio" name="pay" id="payment1">
+                            <label for="payment2">Other</label>
+                            <input type="radio" name="pay" id="payment2">
+                            <div id="other">
+                                <div id="smart-button-container">
+                                    <div style="text-align: center;">
+                                        <div id="paypal-button-container"></div>
+                                    </div>
+                                </div>
+                                <script
+                                    src="https://www.paypal.com/sdk/js?client-id=sb&enable-funding=venmo&currency=EUR"
+                                    data-sdk-integration-source="button-factory"></script>
+                                <script>
+                                    function initPayPalButton() {
+                                        paypal.Buttons({
+                                            style: {
+                                                shape: 'rect',
+                                                color: 'gold',
+                                                layout: 'vertical',
+                                                label: 'paypal',
+
+                                            },
+
+                                            createOrder: function (data, actions) {
+                                                return actions.order.create({
+                                                    purchase_units: [{ "amount": { "currency_code": "EUR", "value": Number('<%- total %>') } }]
+                                                });
+                                            },
+
+                                            onApprove: function (data, actions) {
+                                                return actions.order.capture().then(function (orderData) {
+
+                                                    // Full available details
+                                                    console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+
+                                                    // Show a success message within this page, e.g.
+                                                    const element = document.getElementById('paypal-button-container');
+                                                    element.innerHTML = '';
+                                                    element.innerHTML = '<h3>Thank you for your payment!</h3>';
+
+                                                    // Or go to another URL:  
+                                                    actions.redirect('/order/complete');
+
+                                                });
+                                            },
+
+                                            onError: function (err) {
+                                                console.log(err);
+                                            }
+                                        }).render('#paypal-button-container');
+                                    }
+                                    initPayPalButton();
+                                </script>
+                            </div>
+                            <input id="nextpay" type="submit" value="Next">
+                        </form>
+
+
+                        <% } %>
+                            <% if (data==='conform' ) { %>
+                                <h2 class="stap">3/3 conformation</h2>
+                                <p>Thanks for ur purchase.</p>
+                                <h3>Products</h3>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            Product
+                                        </td>
+                                        <td>
+                                            Price
+                                        </td>
+                                        <td>
+                                            Amount
+                                        </td>
+                                        <td>
+                                            Total
+                                        </td>
+                                    </tr>
+                                    <% order.fullCart.products.map(p=>{
+                                        %>
+                                        <tr>
+                                            <td>
+                                                <%= p.title%>
+                                            </td>
+                                            <td>
+                                                €<%= p.meta.price%>
+                                            </td>
+                                            <td>
+                                                x<%= p.amount%>
+                                            </td>
+                                            <td>
+                                                €<%= (p.meta.price * p.amount).toFixed(2)%>
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+                                            <tr>
+                                                <td>Total</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>
+                                                    €<%= order.fullCart.total %>
+                                                </td>
+                                            </tr>
+                                </table>
+                                <h3>Details</h3>
+                                <table class="details">
+                                    <tr>
+                                        <td>First Name</td>
+                                        <td>
+                                            <%= order.orderInfo.first_name %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Last Name</td>
+                                        <td>
+                                            <%= order.orderInfo.last_name %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email</td>
+                                        <td>
+                                            <%= order.orderInfo.email %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>City</td>
+                                        <td>
+                                            <%= order.orderInfo.city %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Postal Code</td>
+                                        <td>
+                                            <%= order.orderInfo.postal_code %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Address</td>
+                                        <td>
+                                            <%= order.orderInfo.address %>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <p>U can always see ur order on ur <a href="/account">account</a> with the same email
+                                </p>
+                                <a href="/"><input type="button" value="Next"></a>
+
+                                <% }; %>
+    </section>
+    </main>
+    <script>
+        document.querySelector('#payment2').addEventListener('click', link);
+        document.querySelector('#payment1').addEventListener('click', unlink);
+
+        function link() {
+            document.querySelector('#other').style.display = 'block';
+            document.querySelector('#nextpay').style.display = 'none';
+
+        }
+        function unlink() {
+            document.querySelector('#other').style.display = 'none';
+            document.querySelector('#nextpay').style.display = 'block';
+
+        }
+    </script>
+    <%- include('parts/footer.ejs') %>
